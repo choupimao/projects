@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 
 def index(request):
     return HttpResponse(request.path)
@@ -42,3 +42,19 @@ def postTest2(request):
     uhobby=request.POST.getlist('uhobby')
     context={'uname':uname,'upwd':upwd,'ugender':ugender,'uhobby':uhobby}
     return render(request,'booktest/postTest2.html',context)
+
+#cookie练习
+def cookitTest(request):
+    response = HttpResponse()
+    cookie = request.COOKIES
+    if 't1' in cookie:
+        response.write(cookie['t1'])
+    # response.set_cookie('t1','abc')
+    return response
+
+#重定向练习
+def redTest1(request):
+    return HttpResponseRedirect('')
+
+def redTest2(request):
+    return HttpResponse('这是转向来的页面')
