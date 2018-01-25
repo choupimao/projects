@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 
 def index(request):
@@ -54,7 +54,28 @@ def cookitTest(request):
 
 #重定向练习
 def redTest1(request):
-    return HttpResponseRedirect('')
-
+    # return HttpResponseRedirect('/booktest/redTest2/')
+    return redirect('/booktest/redTest2/')
 def redTest2(request):
     return HttpResponse('这是转向来的页面')
+
+#通过用户登录练习session
+def session1(request):
+    uname=request.session.get('myname','未登录')
+    context={'uname':uname}
+    return render(request,'booktest/session1.html',context)
+def session2(request):
+    return render(request,'booktest/session2.html')
+def session2_handle(request):
+    uname = request.POST['uname']
+    request.session['myname']=uname
+    request.session.set_expiry(0)
+    return  redirect('/booktest/session1/')
+def session3(request):
+    #删除session
+    del request.session['myname']
+    return redirect('/booktest/session1/')
+
+
+
+
